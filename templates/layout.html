@@ -23,20 +23,29 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item"><a class="nav-link" href="/about" title="About Page">About</a></li>
-                        { % if session["logged_in"] %}
-                            <li class="nav-item active"><a class="nav-link" href="/admin" title="Admin Page">{ { session["username"] }}</a> </li>
-                            <li class="nav-item active"><a class="nav-link" href="/logout" title="Çıkış Yap">Çıkış Yap</a> </li>
-                        { % else %}
-                            <li class="nav-item active"><a class="nav-link" href="/register" title="Kayıt Ol">Kayıt Ol</a> </li>
-                            <li class="nav-item active"><a class="nav-link" href="/login" title="Giriş Yap">Giriş Yap</a> </li>
-                        { % endif %}
+                        {% if request.user.is_authenticated %}
+                            <li class="nav-item active"><a class="nav-link" href="/admin" title="Admin Page">{{ request.user.username }}</a> </li>
+                            <li class="nav-item active"><a class="nav-link" href="/user/logout" title="Çıkış Yap">Çıkış Yap</a> </li>
+                        {% else %}
+                            <li class="nav-item active"><a class="nav-link" href="/user/register" title="Kayıt Ol">Kayıt Ol</a> </li>
+                            <li class="nav-item active"><a class="nav-link" href="/user/login" title="Giriş Yap">Giriş Yap</a> </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
         </nav>
     {% block body %}
     {% endblock body %}
-    { % include "includes/messages.html" %}
+    
+     
+    {% if messages %} 
+        {% for message in messages %} 
+        <div {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %} role="alert">
+            {{ message }}
+        </div>
+        {% endfor %} 
+    {% endif %}
+    <hr>
     <hr>
     <footer>
         <div class="container">
@@ -57,14 +66,16 @@
             </div>
         </div>
     </footer>
-        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+        <script src="{% static 'js/jquery-3.3.1.js' %}"></script> 
         <script src="{% static 'js/clean-blog.min.js' %}"></script> 
-        <script src="https://cdn.ckeditor.com/4.11.1/full-all/ckeditor.js"></script>
+        <!--
+        <script src="{% static 'js/ckeditor.js' %}"></script> 
         <script>
             CKEDITOR.replace( 'content',{
                 allowedContent : true
             });
         </script>
-        <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+        -->
+        <script src="{% static 'js/run_prettify.js' %}"></script> 
   </body>
 </html>

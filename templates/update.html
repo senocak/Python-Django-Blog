@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% load crispy_forms_tags %}
+{% block body %}
+    <header class="masthead"  >
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto"> 
+                </div>
+            </div>
+        </div>
+    </header>  
+    <br>
+    <div class="container">
+        <div class="row">
+        <br><br>
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <form method="post" class="form-horizontal" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.media }}
+                    {{ form|crispy }} 
+                    <button type="submit" class="btn btn-primary btn-lg">Makale Güncelle</button>
+                    <a href="/articles/dashboard/" class="btn btn-danger btn-lg">Makaleler</a>
+                </form>
+            </div>
+        </div>
+    </div>                          
+{% endblock body %}

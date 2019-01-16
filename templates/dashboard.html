@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block body %}
+    <header class="masthead"  >
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto"> 
+                     
+                </div>
+            </div>
+        </div>
+    </header>  
+    <br>
+    <div class="container">
+        <div class="row">
+            <a href="/articles/create/article" class="btn btn-block btn-success">Add Article</a>
+            <br>
+            <div class="col-lg-12 col-md-12 mx-auto">
+            {% if articles %}
+                <table class="table table-responsive table-hover ">
+                    <tr><th>id</th><th>Başlık</th><th>Yazar</th><th>Tarih</th><th>#</th><tr>
+                    {% for article in articles %}
+                        <tr>
+                            <td>{{article.id}}</td>
+                            <td><a href="/articles/article/{{article.id}}">{{article.title}}</a></td>
+                            <td>{{article.author}}</td>
+                            <td>{{article.created_date}}</td>
+                            <td>
+                                <a href="/articles/update/{{article.id}}" class="btn btn-warning">Düzenle</a>
+                                <a href="/articles/delete/{{article.id}}" class="btn btn-danger">Sil</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                <table>
+            {% else %}
+                <div class="alert alert-danger" role="alert">
+                    Henüz Bir Makaleniz Bulunmuyor.
+                </div>
+            {% endif %}
+            </div>
+        </div>
+    </div>                          
+{% endblock body %}

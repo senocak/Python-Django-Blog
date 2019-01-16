@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block body %}
+    {% if article %}
+        {% if article.article_image %}
+            <header class="masthead" style="background-image: url('{{article.article_image.url}}')">
+        {% else %} 
+            <header class="masthead" style="background-image: url('{% static 'img/about-bg.jpg' %}')">
+        {% endif %}
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-10 mx-auto"> 
+                        <div class="post-heading">
+                            <h1>{{article.title}}</h1>
+                            <span class="meta">Posted by <a href="#">{{ article.author }}</a> on {{ article.created_date }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header> 
+        <div style="text-align: justify;">{{ article.content|safe }} </div>
+    {% else %} 
+        <header class="masthead" style="background-image: url('{% static 'img/about-bg.jpg' %}')">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-10 mx-auto"> 
+                        <div class="post-heading">
+                            <div class="alert alert-danger">Yazı Bulunamadı</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    {% endif %}
+{% endblock body %}
