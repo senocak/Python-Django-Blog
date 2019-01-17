@@ -20,6 +20,37 @@
             </div>
         </header> 
         <div style="text-align: justify;">{{ article.content|safe }} </div>
+        <div class="card my-4">
+            <h5 class="card-header">Yorum Ekle</h5>
+            <div class="card-body">
+                <form method="post" action="{% url 'article:comment' article.id %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" name="comment_author" class="form-control" placeholder="İsminiz" required>
+                    </div>
+                    <div class="form-group"> 
+                        <textarea class="form-control" rows="3" style="resize:none;" name="comment_content" placeholder="Yorumunuz" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-danger">Ekle</button>
+                </form>
+            </div>
+        </div>
+
+        {% if comments %}
+            {% for comment in comments %}
+                <div class="media mb-4">
+                    <img class="d-flex mr-3 rounded-circle" src="{% static 'img/user.png' %}" width="50px">
+                    <div class="media-body">
+                        <h5 class="mt-0">{{ comment.comment_author }} / <small>{{ comment.comment_created_date }}</small></h5>
+                        {{ comment.comment_content }}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-danger" role="alert">
+                İlk Yorum Yapan Siz olun
+            </div>
+        {% endif %}
     {% else %} 
         <header class="masthead" style="background-image: url('{% static 'img/about-bg.jpg' %}')">
             <div class="overlay"></div>

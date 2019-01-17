@@ -1,7 +1,7 @@
-from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404, reverse
 from django.contrib.auth.decorators import login_required
 from .forms import ArticleForms
-from .models import Article
+from .models import Article, Comment
 from django.contrib import messages
 
 def index(request):
@@ -32,12 +32,9 @@ def create_article(request):
     return render(request,"create_article.html",{"form":form})
 
 def detail(request,id):
-    #article = Article.objects.filter(id=id).first()
     article = get_object_or_404(Article,id=id)
-    context={
-        "article":article
-    }
-    return render(request,"detail.html",context)
+    comments = article.comments.all()
+    return render(request,"detail.html",{"article":article,"comments":comments})
 
 @login_required(login_url = "user:login")
 def update(request,id):
@@ -57,3 +54,14 @@ def delete(request,id):
     article.delete()
     messages.success(request, "Makale Başarıyla Silindi")
     return redirect("article:dashboard")
+
+def addComment(request,id):
+    article = get_object_or_404(Article,id=id)
+    if request.method == "POST":
+        comment_author = request.POST.get("comment_author")
+        comment_content = request.POST.get("comment_content")
+        newComment = Comment(comment_author=comment_author,comment_content=comment_content)
+        newComment.article = article
+        newComment.save()
+    #return redirect("/articles/article/"+str(id))
+    return redirect(reverse("article:detail",kwargs={"id":id}))

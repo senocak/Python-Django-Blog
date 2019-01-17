@@ -18,16 +18,11 @@
     {% if articles %}
       {% for article in articles %} 
           <div class="post-preview">
-            <a href="/articles/article/{{article.id}}">
+            <a href="{% url 'article:detail' article.id %}">
               <h2 class="post-title">{{article.title}}</h2>
-              <h3 class="post-subtitle">
-                {{article.title}}
-              </h3>
+              <h3 class="post-subtitle">{{article.content|striptags|truncatewords:10}}</h3>
             </a>
-            <p class="post-meta">Posted by
-              <a href="#">{{article.author}}</a>
-              on {{article.created_date}}</p>
-          </div>
+            <p class="post-meta">Posted by <a href="#">{{article.author}}</a> on {{article.created_date}}</p> </div>
           <hr>
       {% endfor %}  
         <div class="clearfix">
